@@ -6,7 +6,7 @@ import errorHandler from "./middlewares/auth.errorHandler.js";
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173", // Replace with your frontend's URL
+    origin: "https://anglemess.onrender.com", // Replace with your frontend's URL
     credentials: true, // Allow cookies and credentials
 }));
 app.use(express.json());
