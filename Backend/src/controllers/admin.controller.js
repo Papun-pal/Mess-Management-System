@@ -82,7 +82,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // ❗ Set to false for localhost
-        sameSite: "Lax",
+        sameSite: "None",
         path: "/",
         maxAge: 10 * 24 * 60 * 60 * 1000,
     };
