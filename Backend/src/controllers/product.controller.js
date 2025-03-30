@@ -1,6 +1,6 @@
 import Product from "../models/product.model.js";
 import {asyncHandler }from "../utils/asyncHandler.js";
-import {ApiResponse} from "../utils/ApiResponse.js";
+import {ApiResponse} from "../utils/apiResponse.js";
 import { ApiError} from "../utils/ApiError.js";
 
 // ✅ GET: Fetch all products (Users & Admin)
