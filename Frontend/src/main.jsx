@@ -7,7 +7,7 @@ import './index.css';
 import App from './App.jsx';
 import Landing from './pages/Landing.jsx';
 import Login from './pages/Login.jsx';
-import AdminLogin from './pages/Admin/Adminlogin.jsx';
+import AdminLogin from './pages/Admin/AdminLogin.jsx';
 import UserLogin from './pages/User/Userlogin.jsx';
 import Userhome from './pages/User/Userhome.jsx';
 import Currentbill from './pages/User/Currentbill.jsx';
