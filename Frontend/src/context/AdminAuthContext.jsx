@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
+import {  useNavigate } from "react-router-dom";
 
 
 // Create AdminAuthContext
@@ -50,6 +51,7 @@ export const AdminAuthProvider = ({ children }) => {
 
   // Function to log out the admin
   const adminLogout = async () => {
+    const navigate = useNavigate();
     try {
       await axios.post(
         `${import.meta.env.VITE_API_URL}/admin/logout`, // Admin logout API
@@ -59,8 +61,8 @@ export const AdminAuthProvider = ({ children }) => {
 
       setAdmin(null);
       localStorage.removeItem("admin");
-
-      window.location.href = "/login";
+      navigate("/login");
+      // window.location.href = "/login";
     } catch (error) {
       console.error("Admin Logout Error:", error);
     }
