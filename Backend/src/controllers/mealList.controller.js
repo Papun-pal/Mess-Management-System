@@ -1,7 +1,7 @@
 import MealList from "../models/meallist.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/apiError.js";
-import { ApiResponse } from "../utils/apiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 // ✅ USERS: Get all meals (Users & Admin view)
 const getMeals = asyncHandler(async (req, res) => {

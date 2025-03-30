@@ -1,7 +1,7 @@
 import { Admin } from "../models/admin.model.js";
-import { ApiError } from "../utils/apiError.js";
+import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiResponse } from "../utils/apiResponse.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const generateAccessAndRefreshToken = async (adminId) => {
     try {
