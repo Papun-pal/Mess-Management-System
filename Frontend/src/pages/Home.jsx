@@ -9,7 +9,7 @@ const HomePage = () => {
         <h1 className="text-4xl font-bold">Welcome to Mess Management System</h1>
         <p className="mt-2 text-lg">Manage your meals, expenses, and bills efficiently</p>
         <Link
-          to="/Signup" // Navigate to the Sign Up page
+          to="/signup" // Navigate to the Sign Up page
           className="mt-4 inline-block px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-200"
         >
           Get Started
@@ -39,7 +39,7 @@ const HomePage = () => {
       <section className="bg-blue-600 text-white py-12 text-center">
         <h2 className="text-2xl font-bold">Start Managing Your Mess Efficiently</h2>
         <Link
-          to="/Signup" // Navigate to the Sign Up page
+          to="/signup" // Navigate to the Sign Up page
           className="mt-4 inline-block px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-200"
         >
           Sign Up Now
