@@ -12,9 +12,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors({
-    origin: "https://anglemess.onrender.com", // Replace with your frontend's URL
-    credentials: true, // Allow cookies and credentials
+  origin: "https://anglemess.onrender.com", 
+  credentials: true, 
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow these HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"], 
 }));
+app.options("*", cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
