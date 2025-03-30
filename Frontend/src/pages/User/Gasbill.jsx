@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import showToast from "../../components/Popup";
+
 function Gasbill() {
   const { user } = useAuth(); // Get logged-in user info
   const [month, setMonth] = useState("");
@@ -35,11 +36,12 @@ function Gasbill() {
         `${import.meta.env.VITE_API_URL}/gasBills/bills/${monthNames[month]}/${year}`,
         { headers: { Authorization: `Bearer ${user.accessToken}` } }
       );
+      // console.log("Gas bill data:", response.data.data);
       setBillData(response.data.data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching bill:", error);
-      showToast(error.response?.data?.message || "Failed to fetch bill. Please try again.", "error");
+      console.error("Error fetching gas bill:", error);
+      showToast(error.response?.data?.message || "Failed to fetch gas bill. Please try again.", "error");
       setLoading(false);
     }
   };
@@ -53,11 +55,11 @@ function Gasbill() {
         { amount },
         { headers: { Authorization: `Bearer ${user.accessToken}` } }
       );
-      showToast("Bill updated successfully!", "success");
+      showToast("Gas bill updated successfully!", "success");
       fetchBill(); // Refresh the bill data
     } catch (error) {
-      console.error("Error updating bill:", error);
-      showToast(error.response?.data?.message || "Failed to update bill. Please try again.", "error");
+      console.error("Error updating gas bill:", error);
+      showToast(error.response?.data?.message || "Failed to update gas bill. Please try again.", "error");
     }
   };
 
@@ -107,7 +109,7 @@ function Gasbill() {
       ) : billData ? (
         <div className="bg-gray-600 p-6 shadow rounded w-full max-w-lg">
           <h3 className="text-xl font-semibold mb-4 text-[#EAEAEA]">
-            Bill Details for {monthNames[month]}/{year}
+            Gas Bill Details for {monthNames[month]}/{year}
           </h3>
           <p className="text-[#EAEAEA]">
             Total Bill: <strong>Rs. {billData.totalbill}</strong>
@@ -116,15 +118,15 @@ function Gasbill() {
           {billData.users
             .sort((a, b) => {
               // Sort so that the logged-in user's data appears first
-              if (a.userId._id === user.id) return -1;
-              if (b.userId._id === user.id) return 1;
+              if (String(a.userId._id) === String(user._id)) return -1;
+              if (String(b.userId._id) === String(user._id)) return 1;
               return 0;
             })
             .map((userBill) => {
               return (
                 <div key={userBill.userId._id} className="mt-4 border-b pb-2 border-[#8F93F6]">
                   <p className="text-[#EAEAEA]">
-                    <strong>Name:</strong> {userBill.userId.name}
+                    <strong>Name:</strong> {userBill.userId.username}
                   </p>
                   <p className="text-[#EAEAEA]">
                     <strong>Email:</strong> {userBill.userId.email}
@@ -137,7 +139,7 @@ function Gasbill() {
                   </p>
 
                   {/* Allow editing only for the logged-in user */}
-                  {userBill.userId._id === user.id && (
+                  {String(userBill.userId._id) === String(user._id) && (
                     <div className="mt-2">
                       <input
                         type="number"
@@ -159,7 +161,7 @@ function Gasbill() {
             })}
         </div>
       ) : (
-        <p className="text-[#EAEAEA]">No bill data available. Please fetch a bill.</p>
+        <p className="text-[#EAEAEA]">No gas bill data available. Please fetch a bill.</p>
       )}
     </div>
   );

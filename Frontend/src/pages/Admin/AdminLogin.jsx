@@ -5,15 +5,14 @@ import showToast from "../../components/Popup";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { adminLogin } = useAdminAuth(); // Access the login function from AuthContext
+  const { adminLogin } = useAdminAuth(); 
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState(null); // State to store error messages
-
+  const [error, setError] = useState(null); 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -22,15 +21,15 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await adminLogin(formData, "admin"); // Pass "admin" to differentiate login types
+    const result = await adminLogin(formData, "admin"); 
 
     if (result.success) {
       showToast("Admin logged in successfully", "success");
 
-      navigate("/admin-home"); // Redirect to admin home page
+      navigate("/admin/home"); 
     } else {
       showToast("Failed to log in", "error");
-      setError(result.message); // Display error message
+      setError(result.message); 
     }
   };
 

@@ -10,6 +10,8 @@ const CurrentBill = () => {
   const [billData, setBillData] = useState(null);
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
+ 
+
 
   const monthNames = [
     "",
@@ -27,6 +29,9 @@ const CurrentBill = () => {
     "December",
   ];
 
+
+
+
   // Fetch bill details
   const fetchBill = async () => {
     if (!month || !year) return showToast("Please select a month and year.", "info");
@@ -36,12 +41,15 @@ const CurrentBill = () => {
         `${import.meta.env.VITE_API_URL}/currentBills/bills/${monthNames[month]}/${year}`,
         { headers: { Authorization: `Bearer ${user.accessToken}` } }
       );
+      // console.log("Bill data:", response.data.data);
+      
       setBillData(response.data.data);
       setLoading(false);
+      
     } catch (error) {
       console.error("Error fetching bill:", error);
-      
-      showToast(error.response?.data?.message ||  "Failed to fetch bill. Please try again.", "error");
+
+      showToast(error.response?.data?.message || "Failed to fetch bill. Please try again.", "error");
       setLoading(false);
     }
   };
@@ -118,11 +126,14 @@ const CurrentBill = () => {
           {billData.users
             .sort((a, b) => {
               // Sort so that the logged-in user's data appears first
-              if (a.userId._id === user.id) return -1;
-              if (b.userId._id === user.id) return 1;
+              if (String(a.userId._id) === String(user._id)) return -1;
+              if (String(b.userId._id) === String(user._id)) return 1;
               return 0;
             })
             .map((userBill) => {
+              // console.log("Logged-in user ID:", user._id);
+              // console.log("Bill user ID:", userBill.userId._id);
+
               return (
                 <div key={userBill.userId._id} className="mt-4 border-b pb-2 border-[#8F93F6]">
                   <p className="text-[#EAEAEA]">
@@ -139,7 +150,7 @@ const CurrentBill = () => {
                   </p>
 
                   {/* Allow editing only for the logged-in user */}
-                  {userBill.userId._id === user.id && (
+                  {String(userBill.userId._id) === String(user._id) && (
                     <div className="mt-2">
                       <input
                         type="number"
