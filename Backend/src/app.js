@@ -2,19 +2,16 @@ import express, { urlencoded } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import errorHandler from "./middlewares/auth.errorHandler.js";
-import path from "path";
-import { fileURLToPath } from "url";
 
-// Resolve the __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
+
 
 const app = express();
 
 app.use(cors({
   origin: "https://anglemess.onrender.com", 
   credentials: true, 
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow these HTTP methods
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"], // Allow these HTTP methods
   allowedHeaders: ["Content-Type", "Authorization"], 
 }));
 app.options("*", cors());
@@ -23,13 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-// Serve static files from the React build folder
-app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
 
-// Handle all other requests by serving the React app
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../Frontend/dist", "index.html"));
-});
 
 //routs import
 import userRouts from "./routes/user.routes.js";
