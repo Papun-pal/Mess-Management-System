@@ -9,6 +9,7 @@ const AdminAuthContext = createContext();
 // AdminAuthProvider component
 export const AdminAuthProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null); // Store admin info (e.g., id, token, etc.)
+  const navigate = useNavigate();
 
   // Function to log in the admin
   const adminLogin = async (formData) => {
@@ -51,7 +52,6 @@ export const AdminAuthProvider = ({ children }) => {
 
   // Function to log out the admin
   const adminLogout = async () => {
-    const navigate = useNavigate();
     try {
       await axios.post(
         `${import.meta.env.VITE_API_URL}/admin/logout`, // Admin logout API
