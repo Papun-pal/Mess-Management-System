@@ -25,7 +25,7 @@ export const AdminAuthProvider = ({ children }) => {
       
       // Extract admin details from response
       const { admin, accessToken, refreshToken } = response.data.data;
-      // console.log(admin.adminname);
+      // console.log(response.data.data);
       const adminData = {
         id: admin._id,
         adminname: admin.adminname,

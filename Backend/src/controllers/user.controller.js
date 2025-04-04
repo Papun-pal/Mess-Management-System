@@ -90,44 +90,36 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // ❗ Set to false for localhost
+        secure: true, 
         sameSite: "None",
         path: "/",
         maxAge: 10 * 24 * 60 * 60 * 1000,
     };
 
-    return res.status(200)
+    return res
+        .status(200)
         .cookie("accessToken", accessToken, { ...options, maxAge: 24 * 60 * 60 * 1000 }) // Corrected spelling
         .cookie("refreshToken", refreshToken, options) // Corrected spelling
         .json(new ApiResponse(200, {
-            user: loggedInUser, accessToken, refreshToken // Corrected spelling
+            user: loggedInUser,accessToken,refreshToken
         }, "User logged in successfully"));
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
-    await User.findByIdAndUpdate(
-        req.user._id,
-        {
-            $unset: {
-                refreshToken: 1 // this removes the field from document
-            }
-        },
-        {
-            new: true
-        }
-    )
+   
     await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } }, { new: true });
 
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
         sameSite: "None",
         path: "/",
     };
 
     return res.status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
+    .clearCookie("accessToken", { ...options, expires: new Date(0) })
+    .clearCookie("refreshToken", { ...options, expires: new Date(0) })
+    
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 })
 

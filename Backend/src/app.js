@@ -9,7 +9,20 @@ import errorHandler from "./middlewares/auth.errorHandler.js";
 const app = express();
 
 app.use(cors({
-  origin: "https://anglemess.onrender.com", 
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "http://localhost:5173", // Frontend during development
+      "http://localhost:8000", // Backend during development
+      "https://anglemess.onrender.com", // Production frontend
+    ];
+
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true, 
   methods: ["GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"], // Allow these HTTP methods
   allowedHeaders: ["Content-Type", "Authorization"], 
