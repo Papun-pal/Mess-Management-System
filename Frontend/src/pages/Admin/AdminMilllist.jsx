@@ -40,7 +40,7 @@ function AdminMilllist() {
     meals.forEach((meal) => {
       const day = meal.day.toLowerCase();
       if (!formatted[day]) {
-        formatted[day] = { lunch: "No Data", dinner: "No Data" };
+        formatted[day] = { lunch: "--", dinner: "--" };
       }
       if (meal.mealType === "lunch") {
         formatted[day].lunch = meal.mealName;
@@ -215,7 +215,7 @@ function AdminMilllist() {
             </thead>
             <tbody>
               {daysOfWeek.map((day) => {
-                const meal = mealData[day] || { lunch: "No Data", dinner: "No Data" };
+                const meal = mealData[day] || { lunch: "--", dinner: "--" };
                 return (
                   <tr key={day} className="border-b border-[#8F93F6]">
                     <td className="py-2">{day.charAt(0).toUpperCase() + day.slice(1)}</td>
