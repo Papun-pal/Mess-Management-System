@@ -105,9 +105,25 @@ const loginUser = asyncHandler(async (req, res) => {
         }, "User logged in successfully"));
 })
 
-const logoutUser = asyncHandler(async (req, res) => {
+// const logoutUser = asyncHandler(async (req, res) => {
    
-    await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } }, { new: true });
+//     await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } }, { new: true });
+
+//     const options = {
+//         httpOnly: true,
+//         secure: true,
+//         sameSite: "None",
+//         path: "/",
+//     };
+
+//     return res.status(200)
+//     .clearCookie("accessToken", { ...options, expires: new Date(0) })
+//     .clearCookie("refreshToken", { ...options, expires: new Date(0) })
+//     .json(new ApiResponse(200, {}, "User logged out successfully"));
+// })
+const logoutUser = asyncHandler(async (req, res) => {
+    const cookies = req.cookies;
+    const refreshToken = cookies?.refreshToken;
 
     const options = {
         httpOnly: true,
@@ -116,12 +132,29 @@ const logoutUser = asyncHandler(async (req, res) => {
         path: "/",
     };
 
-    return res.status(200)
-    .clearCookie("accessToken", { ...options, expires: new Date(0) })
-    .clearCookie("refreshToken", { ...options, expires: new Date(0) })
-    
+    if (!refreshToken) {
+        return res
+            .clearCookie("accessToken", { ...options, expires: new Date(0) })
+            .clearCookie("refreshToken", { ...options, expires: new Date(0) })
+            .status(200)
+            .json(new ApiResponse(200, {}, "User logged out successfully"));
+    }
+
+    // Find user by refresh token
+    const user = await User.findOne({ refreshToken });
+    if (user) {
+        user.refreshToken = undefined;
+        await user.save();
+    }
+
+    return res
+        .clearCookie("accessToken", { ...options, expires: new Date(0) })
+        .clearCookie("refreshToken", { ...options, expires: new Date(0) })
+        .status(200)
         .json(new ApiResponse(200, {}, "User logged out successfully"));
-})
+});
+
+
 
 const refressAccessToken = asyncHandler(async (req, res) => {
     const incomingRefressToken = req.cookie.refreshToken || req.body.refreshToken

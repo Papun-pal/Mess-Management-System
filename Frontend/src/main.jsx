@@ -34,6 +34,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Landing />,
+        
       },
       {
         path: "/home",
@@ -114,6 +115,7 @@ const router = createBrowserRouter([
      
 
     ],
+    
   },
 ]);
 
