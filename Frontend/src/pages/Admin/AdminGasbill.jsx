@@ -4,16 +4,13 @@ import { useAdminAuth } from "../../context/AdminAuthContext";
 import showToast from "../../components/Popup";
 
 const AdminGasbill = () => {
-  const { admin } = useAdminAuth(); // Get logged-in admin info
+  const { admin } = useAdminAuth();
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [totalBill, setTotalBill] = useState("");
   const [billData, setBillData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [updateData, setUpdateData] = useState({
-    userId: "",
-    amount: "",
-  });
+  const [amountInputs, setAmountInputs] = useState({}); // Track individual inputs
 
   const monthNames = [
     "",
@@ -47,7 +44,6 @@ const AdminGasbill = () => {
 
       showToast("Total gas bill set successfully!", "success");
 
-      // Clear input fields
       setMonth("");
       setYear("");
       setTotalBill("");
@@ -72,7 +68,6 @@ const AdminGasbill = () => {
 
       showToast(`All gas bills for ${monthNames[month]} ${year} have been deleted successfully!`, "success");
 
-      // Clear input fields
       setMonth("");
       setYear("");
       setTotalBill("");
@@ -83,7 +78,7 @@ const AdminGasbill = () => {
     }
   };
 
-  // Fetch All User Gas Bills
+  // Fetch User Gas Bills
   const fetchUserGasBills = async () => {
     if (!month || !year) {
       return showToast("Please select a month and year.", "info");
@@ -98,17 +93,18 @@ const AdminGasbill = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error fetching user gas bills:", error);
-      showToast(error.response?.data?.message ||"Failed to fetch user gas bills. Please try again.", "error");
+      showToast(error.response?.data?.message || "Failed to fetch user gas bills. Please try again.", "error");
       setLoading(false);
     }
   };
 
   // Update User Gas Bill
-  const updateUserGasBill = async () => {
-    const { userId, amount } = updateData;
+  const updateUserGasBill = async (userId) => {
+    const amount = amountInputs[userId];
     if (!userId || !amount) {
       return showToast("Please fill all fields to update the gas bill.", "info");
     }
+
     try {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/gasBills/admin/bills/update/${monthNames[month]}/${year}`,
@@ -117,19 +113,19 @@ const AdminGasbill = () => {
       );
       showToast("User gas bill updated successfully!", "success");
 
-      // Clear input fields
-      setUpdateData({ userId: "", amount: "" });
-      fetchUserGasBills(); // Refresh the bill data
+      setAmountInputs((prev) => ({ ...prev, [userId]: "" }));
+      fetchUserGasBills(); // Refresh
     } catch (error) {
       console.error("Error updating user gas bill:", error);
-      showToast(error.response?.data?.message ||"Failed to update user gas bill. Please try again.", "error");
+      showToast(error.response?.data?.message || "Failed to update user gas bill. Please try again.", "error");
     }
   };
 
   return (
     <div className="min-h-[80vh] bg-gray-700 p-6">
       <div className="bg-gray-600 shadow-lg rounded-lg p-8 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* First Column: Set Total Gas Bill */}
+
+        {/* Set Total Gas Bill */}
         <div className="bg-blue-100 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-gray-700 mb-4">Select Month & Year</h2>
           <div className="space-y-4">
@@ -182,7 +178,7 @@ const AdminGasbill = () => {
           </div>
         </div>
 
-        {/* Second Column: Update User Gas Bills */}
+        {/* Update User Gas Bills */}
         <div className="bg-green-50 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-green-600 mb-4">Update User Gas Bills</h2>
           <div className="space-y-4">
@@ -197,32 +193,22 @@ const AdminGasbill = () => {
             ) : (
               billData.map((bill) => (
                 <div key={bill.userId._id} className="border-b pb-4 mb-4">
-                  <p>
-                    <strong>Name:</strong> {bill.userId.username}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {bill.userId.email}
-                  </p>
-                  <p>
-                    <strong>Amount:</strong> Rs. {bill.amount}
-                  </p>
-                  <p>
-                    <strong>Status:</strong> {bill.status}
-                  </p>
+                  <p><strong>Name:</strong> {bill.userId.username}</p>
+                  <p><strong>Email:</strong> {bill.userId.email}</p>
+                  <p><strong>Amount:</strong> Rs. {bill.amount}</p>
+                  <p><strong>Status:</strong> {bill.status}</p>
                   <div className="mt-2">
-                    
-
                     <input
                       type="number"
                       placeholder="Enter Amount"
-                      value={updateData.amount}
+                      value={amountInputs[bill.userId._id] || ""}
                       onChange={(e) =>
-                        setUpdateData({ ...updateData, amount: e.target.value, userId: bill.userId._id })
+                        setAmountInputs({ ...amountInputs, [bill.userId._id]: e.target.value })
                       }
                       className="w-full p-2 border rounded mb-2"
                     />
                     <button
-                      onClick={updateUserGasBill}
+                      onClick={() => updateUserGasBill(bill.userId._id)}
                       className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mt-2"
                     >
                       Update Gas Bill
