@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { DollarSign, Flame, Calendar, List, ShoppingCart } from "lucide-react";
+import { useAdminAuth } from "../../context/AdminAuthContext";
 
 const AdminHome = () => {
+  const{admin} = useAdminAuth();
   return (
     <div className="min-h-screen bg-gray-600 flex flex-col items-center justify-center p-6">
       <div className="bg-gray-500 shadow-lg rounded-lg p-8 max-w-3xl w-full">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
-          Welcome, Admin!
+          Welcome, {admin?.adminname}!
         </h1>
         <p className="text-gray-300 text-center mb-8">
           Manage your mess efficiently with the tools below.
