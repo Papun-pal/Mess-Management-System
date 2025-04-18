@@ -33,7 +33,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
 
 //routs import
 import userRouts from "./routes/user.routes.js";
