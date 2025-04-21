@@ -9,6 +9,8 @@ const AdminAuthContext = createContext();
 // AdminAuthProvider component
 export const AdminAuthProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null); // Store admin info (e.g., id, token, etc.)
+  const [loading, setLoading] = useState(true);
+  // console.log(admin);
  
 
   // Function to log in the admin
@@ -70,15 +72,21 @@ export const AdminAuthProvider = ({ children }) => {
 
   // Load admin data from localStorage when the app starts
   React.useEffect(() => {
-    const storedAdmin = localStorage.getItem("admin");
-    if (storedAdmin) {
-      setAdmin(JSON.parse(storedAdmin));
+    try {
+      const storedAdmin = localStorage.getItem("admin");
+      if (storedAdmin) {
+        setAdmin(JSON.parse(storedAdmin));
+      }
+    } catch (error) {
+      console.error("Error loading admin data:", error);
+    } finally {
+      setLoading(false); // Mark loading as complete
     }
   }, []);
 
   return (
     <AdminAuthContext.Provider value={{ admin, setAdmin, adminLogin, adminLogout }}>
-      {children}
+      {!loading && children} {/* Prevent rendering until loading is complete */}
     </AdminAuthContext.Provider>
   );
 };
