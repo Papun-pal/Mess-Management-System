@@ -4,7 +4,7 @@ import { DollarSign, Flame, Calendar, List, ShoppingCart } from "lucide-react";
 
 const UserHomePage = () => {
   return (
-    <div className="min-h-screen bg-gray-600 flex flex-col items-center justify-center p-6">
+    <div className="min-h-[74vh] bg-gray-600 flex flex-col items-center justify-center p-6">
       <div className="bg-gray-500 shadow-lg rounded-lg p-8 max-w-3xl w-full">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Welcome, User!

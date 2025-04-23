@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <div className="min-h-screen bg-gray-700 flex flex-col items-center justify-center p-6">
+    <div className="min-h-[76vh] bg-gray-700 flex flex-col items-center justify-center p-6">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Welcome to Mess Management

@@ -119,7 +119,7 @@ const AdminCurrentbill = () => {
   };
 
   return (
-    <div className="min-h-[80vh] bg-gray-700 p-6">
+    <div className="min-h-[75vh] bg-gray-700 p-6">
       <div className="bg-gray-600 shadow-lg rounded-lg p-8 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Column 1: Set Total Bill */}
         <div className="bg-blue-100 p-6 rounded-lg shadow-md">

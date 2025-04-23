@@ -59,7 +59,7 @@ function Weeklyfund() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center bg-gray-700 p-6">
+        <div className="min-h-[74vh] flex flex-col items-center bg-gray-700 p-6">
             <h2 className="text-2xl font-bold text-[#EAEAEA] mb-4">Weekly Fund</h2>
 
             {/* Month & Week Selection */}

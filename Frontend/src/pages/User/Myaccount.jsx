@@ -58,7 +58,7 @@ const MyAccount = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col lg:flex-row bg-gray-500">
+        <div className="min-h-[74vh] flex flex-col lg:flex-row bg-gray-500">
             {/* Left Sidebar */}
             <div className="w-full lg:w-1/4 bg-blue-600 text-white p-6">
                 <h2 className="text-2xl font-bold mb-6 text-center lg:text-left">My Account</h2>

@@ -107,7 +107,7 @@ function AdminProductlist() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-700 px-4 py-8 text-white">
+    <div className="min-h-[75vh] bg-gray-700 px-4 py-8 text-white">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Admin Product Management</h2>
 

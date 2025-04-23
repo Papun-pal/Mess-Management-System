@@ -362,7 +362,7 @@ const AdminWeeklyfund = () => {
   };
 
   return (
-    <div className="min-h-[80vh] bg-gray-700 p-6">
+    <div className="min-h-[75vh] bg-gray-700 p-6">
       <div className="bg-gray-600 shadow-lg rounded-lg p-8 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {/* Set Total Weekly Fund Section */}
